@@ -184,8 +184,10 @@ public class SqlHelper {
             conn = getConnection();
             preparedStatement = conn.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
-            T obj = executeResultSet(cls, resultSet);
-            list.add(obj);
+            while (resultSet.next()) {
+                T obj = executeResultSet(cls, resultSet);
+                list.add(obj);
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

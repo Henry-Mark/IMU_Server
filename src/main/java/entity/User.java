@@ -11,63 +11,204 @@ public class User {
     /**
      * 用户ID
      */
-    public int userId;
+    private int userId;
     /**
      * 用户昵称
      */
-    public String nickname;
+    private String nickname;
     /**
      * 用户真名
      */
-    public String username;
+    private String username;
     /**
      * 用户密码：6-16字节，字母、数字组合
      */
-    public String password;
+    private String password;
     /**
      * 用户类型：
      * 0.普通用户
      * 1.VIP用户
      */
-    public int type;
+    private int type;
     /**
      * 年龄
      */
-    public int age;
+    private int age;
     /**
      * 手机号码
      */
-    public String phone;
+    private String phone;
     /**
      * * 性别：
      * 0：男
      * 1：女
      * 2.未知
      */
-    public int sex;
+    private int sex;
     /**
      * 头像url
      */
-    public String avatarUrl;
+    private String avatarUrl;
     /**
      * 签名
      */
-    public String signature;
+    private String signature;
     /**
      * 地址
      */
-    public String address;
+    private String address;
     /**
      * 注册时间 ms
      */
-    public long RegistrationTimeMillis;
+    private long RegistrationTimeMillis;
     /**
      * 上次访问时间 ms
      */
-    public long LastAccessTimeMillis;
+    private long LastAccessTimeMillis;
     /**
      * 预留key
      */
-    public String Reservedfiled1;
-    public String Reservedfiled2;
+    private String Reservedfiled1;
+    private String Reservedfiled2;
+
+    @Override
+    public String toString() {
+        String string = "USER:"
+                + "\nuserId=" + userId
+                + "\nnickname=" + nickname
+                + "\nusername=" + username
+                + "\npassword=" + password
+                + "\ntype=" + type
+                + "\nage=" + age
+                + "\nphone=" + phone
+                + "\nsex=" + sex
+                + "\navatarUrl=" + avatarUrl
+                + "\nsignature=" + signature
+                + "\naddress=" + address
+                + "\nRegistrationTimeMillis=" + RegistrationTimeMillis
+                + "\nLastAccessTimeMillis=" + LastAccessTimeMillis
+                + "\nReservedfiled1=" + Reservedfiled1
+                + "\nReservedfiled2=" + Reservedfiled2;
+        return string;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setRegistrationTimeMillis(long registrationTimeMillis) {
+        RegistrationTimeMillis = registrationTimeMillis;
+    }
+
+    public long getRegistrationTimeMillis() {
+        return RegistrationTimeMillis;
+    }
+
+    public void setLastAccessTimeMillis(long lastAccessTimeMillis) {
+        LastAccessTimeMillis = lastAccessTimeMillis;
+    }
+
+    public long getLastAccessTimeMillis() {
+        return LastAccessTimeMillis;
+    }
+
+    public void setReservedfiled1(String reservedfiled1) {
+        Reservedfiled1 = reservedfiled1;
+    }
+
+    public String getReservedfiled1() {
+        return Reservedfiled1;
+    }
+
+    public void setReservedfiled2(String reservedfiled2) {
+        Reservedfiled2 = reservedfiled2;
+    }
+
+    public String getReservedfiled2() {
+        return Reservedfiled2;
+    }
 }

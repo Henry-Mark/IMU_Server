@@ -18,4 +18,14 @@ public class Constants {
         public static final String USER = "root";
         public static final String PASS = "";
     }
+
+    /**
+     * 数据表
+     */
+    public class Table {
+        //用户表，存储用户基本信息
+        public static final String USER = "USER";
+        //消息表，存储聊天的消息
+        public static final String MESSAGE = "MESSAGE";
+    }
 }

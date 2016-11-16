@@ -1,7 +1,10 @@
 package servlet;
 
+import Utils.DaoUtils;
 import Utils.SqlHelper;
+import Utils.SqlParameter;
 import constants.Constants;
+import entity.SqlParam;
 import entity.User;
 
 import javax.servlet.ServletException;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,10 +31,16 @@ public class Databases extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<User> list =  SqlHelper.executeList(User.class, "select * from user;");
+//        SqlParam[] params = {new SqlParam("nickname","henry"),new SqlParam("username","henry")};
+//        List<User> list =  DaoUtils.findByParams(User.class,params);
+        List<User> list =  DaoUtils.findAll(User.class);
         for (User user : list) {
-            System.out.println("userId:" + user.userId + "\nnickname:" + user.nickname);
+            System.out.println(user.toString());
         }
+
+//        User user = new User();
+//        System.out.println("isTrue:"+DaoUtils.s(user,"userId"));
+
 
         java.sql.Connection conn = null;
         java.sql.Statement stmt = null;
