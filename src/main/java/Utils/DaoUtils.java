@@ -97,11 +97,12 @@ public class DaoUtils {
      * @param <T>
      * @return
      */
-    public static <T> int s(T entity, SqlParam... params) {
+    public static <T> int update(T entity, SqlParam... params) {
         int result = -1;
         String sql = "UPDATE " + getTableName(entity.getClass()) + " SET ";
         String sql_set = null;
         String sql_where = null;
+        //实体的KEY和VAULE的map集合
         List<HashMap> maps = null;
         //第一个要更新的字段
         boolean firstParam = true;
@@ -148,5 +149,91 @@ public class DaoUtils {
         return result;
     }
 
+    /**
+     * 数据表添加记录 INSERT语句
+     *
+     * @param entity 实体类
+     * @param <T>
+     * @return
+     */
+    public static <T> int update(T entity) {
+        int ret = -1;
+        String sql = "INSERT INTO " + getTableName(entity.getClass()) + "( ";
+        String sql_key = null;
+        String sql_value = null;
+        //第一个值
+        boolean firstParam = true;
+        //实体的KEY和VAULE的map集合
+        List<HashMap> maps = null;
+        try {
+            maps = EntityUtils.reflect(entity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        //拼接sql语句
+        if (maps != null) {
+            for (HashMap map : maps) {
+                if (map.get(EntityUtils.VALUE_ENTITY) != null) {
+                    if (firstParam) {
+                        sql_key = map.get(EntityUtils.KEY_ENTITY).toString();
+                        sql_value = " ) VALUES ( " + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                        firstParam = false;
+                    } else {
+                        sql_key += ", " + map.get(EntityUtils.KEY_ENTITY).toString();
+                        sql_value += "," + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                    }
+                }
+            }
+        }
+
+        if (sql_key != null && sql_value != null) {
+            sql += sql_key + sql_value + " );";
+            ret = SqlHelper.exexuteNorQuery(sql);
+            LogUtils.i("MYSQL INSERT: " + sql);
+            LogUtils.i("INSERT RESULT: " + ret);
+        }
+
+        return ret;
+    }
+
+    /**
+     * 从数据表中删除实体对应的记录
+     *
+     * @param entity 实体类
+     * @param <T>
+     * @return
+     */
+    public static <T> int delete(T entity) {
+        int result = -1;
+        String sql = "delete from " + getTableName(entity.getClass()) + " where ";
+        boolean firstParam = true;
+        //实体的KEY和VAULE的map集合
+        List<HashMap> maps = null;
+        try {
+            maps = EntityUtils.reflect(entity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if (maps != null) {
+            for (HashMap map : maps) {
+                if (map.get(EntityUtils.VALUE_ENTITY) != null) {
+                    if (firstParam) {
+                        sql += map.get(EntityUtils.KEY_ENTITY)
+                                + " = " + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                        firstParam = false;
+                    } else {
+                        sql += " and " + map.get(EntityUtils.KEY_ENTITY)
+                                + " = " + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                    }
+                }
+            }
+            sql += ";";
+            result = SqlHelper.exexuteNorQuery(sql);
+            LogUtils.i("MYSQL DELETE: " + sql);
+            LogUtils.i("DELETE RESULT: " + result);
+        }
+        return result;
+    }
 
 }
