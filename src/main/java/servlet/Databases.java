@@ -39,7 +39,7 @@ public class Databases extends HttpServlet {
         user.setAge(21);
         user.setPhone("ds343");
         user.setLastAccessTimeMillis(81254335);
-        int ret = DaoUtils.s(user,new SqlParam("userId",100000001),new SqlParam("username","henry"));
+        int ret = DaoUtils.s(user,new SqlParam("userId",100000001));
         for (User user1 : DaoUtils.findAll(User.class)) {
             System.out.println(user1.toString());
 //            try {
