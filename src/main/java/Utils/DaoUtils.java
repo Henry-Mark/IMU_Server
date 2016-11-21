@@ -4,7 +4,7 @@ import constants.Constants;
 import entity.SqlParam;
 import entity.User;
 
-import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,6 +15,7 @@ import java.util.List;
  * description: 数据库实体辅助类
  */
 public class DaoUtils {
+
 
     /**
      * 根据实体找到对应的数据表
@@ -57,6 +58,7 @@ public class DaoUtils {
      */
     public static <T> List<T> findAll(Class<T> cls) {
         String sql = "SELECT * FROM " + getTableName(cls);
+        LogUtils.i("MYSQL 查询: " + sql);
         return SqlHelper.executeList(cls, sql);
     }
 
@@ -81,27 +83,70 @@ public class DaoUtils {
                 }
             }
             sql += ";";
+            LogUtils.i("MYSQL 查询: " + sql);
             return SqlHelper.executeList(cls, sql);
         }
         return null;
     }
 
-    public static <T> boolean s(T entity, String field_flag) {
-        Field[] fields = entity.getClass().getDeclaredFields();
-        String keyField = null;
-        String paramField = null;
+    /**
+     * update数据表，对应实体类
+     *
+     * @param entity 要更新的数据的实体类
+     * @param params 参数，update时根据的值，即where之后的参数
+     * @param <T>
+     * @return
+     */
+    public static <T> int s(T entity, SqlParam... params) {
+        int result = -1;
+        String sql = "UPDATE " + getTableName(entity.getClass()) + " SET ";
+        String sql_set = null;
+        String sql_where = null;
+        List<HashMap> maps = null;
+        //第一个要更新的字段
         boolean firstParam = true;
-        for (Field field : fields) {
-            if (field.getName().equals(field_flag)) {
-                keyField = "UPDATE　"+getTableName(entity.getClass())+" SET ";
-                return true;
-            }else {
-//                field
-                if (firstParam) {
-                    paramField = "";
+        //第一个条件的字段
+        boolean firstCondition = true;
+        try {
+            maps = EntityUtils.reflect(entity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        //拼接sql语句
+        if (maps != null) {
+            for (HashMap map : maps) {
+                for (SqlParam param : params) {
+                    if (map.get(EntityUtils.KEY_ENTITY).equals(param.Name)) {
+                        if (firstCondition) {
+                            sql_where = " where " + param.Name + " = " + getValue(param.Value);
+                            firstCondition = false;
+                        } else {
+                            sql_where += " and " + param.Name + " = " + getValue(param.Value);
+                        }
+                    } else {
+                        if (map.get(EntityUtils.VALUE_ENTITY) != null) {
+                            if (firstParam) {
+                                sql_set = map.get(EntityUtils.KEY_ENTITY) + " = "
+                                        + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                                firstParam = false;
+                            } else {
+                                sql_set = sql_set + "," + map.get(EntityUtils.KEY_ENTITY)
+                                        + " = " + getValue(map.get(EntityUtils.VALUE_ENTITY));
+                            }
+                        }
+                    }
                 }
             }
         }
-        return false;
+
+        if (sql_set != null) {
+            sql = sql + sql_set + sql_where + ";";
+            result = SqlHelper.exexuteNorQuery(sql);
+            LogUtils.i("MYSQL UPDATE: " + sql);
+            LogUtils.i("UPDATE RESULT: " + result);
+        }
+        return result;
     }
+
+
 }

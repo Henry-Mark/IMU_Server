@@ -1,6 +1,7 @@
 package servlet;
 
 import Utils.DaoUtils;
+import Utils.LogUtils;
 import Utils.SqlHelper;
 import Utils.SqlParameter;
 import constants.Constants;
@@ -17,6 +18,7 @@ import java.lang.reflect.Field;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -30,14 +32,27 @@ public class Databases extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 //        SqlParam[] params = {new SqlParam("nickname","henry"),new SqlParam("username","henry")};
 //        List<User> list =  DaoUtils.findByParams(User.class,params);
-        List<User> list =  DaoUtils.findAll(User.class);
-        for (User user : list) {
-            System.out.println(user.toString());
+        List<User> list = DaoUtils.findAll(User.class);
+        User user = list.get(0);
+        user.setAge(21);
+        user.setPhone("ds343");
+        user.setLastAccessTimeMillis(81254335);
+        int ret = DaoUtils.s(user,new SqlParam("userId",100000001),new SqlParam("username","henry"));
+        for (User user1 : DaoUtils.findAll(User.class)) {
+            System.out.println(user1.toString());
+//            try {
+//                List<HashMap> maps = DaoUtils.reflect(user);
+//                for (HashMap<String, Object> map : maps) {
+//                    System.out.println("KEY=" + map.get(DaoUtils.KEY_ENTITY));
+//                    System.out.println("VAULE=" + map.get(DaoUtils.VALUE_ENTITY));
+//                }
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
         }
-
+        getServletContext().log("日志日志顶呱呱");
 //        User user = new User();
 //        System.out.println("isTrue:"+DaoUtils.s(user,"userId"));
 

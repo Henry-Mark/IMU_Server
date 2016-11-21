@@ -26,5 +26,6 @@
     <orderEntry type="library" name="mysql:mysql-connector-java:6.0.4" level="project" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.37-bin" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
+    <orderEntry type="library" name="ant:ant-apache-log4j:1.6.5" level="project" />
   </component>
 </module>

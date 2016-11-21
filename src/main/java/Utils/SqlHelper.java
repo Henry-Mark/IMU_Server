@@ -68,8 +68,8 @@ public class SqlHelper {
      */
     private static void close(Connection conn, Statement statement, ResultSet resultSet) {
         try {
-            resultSet.close();
             if (resultSet != null) {
+                resultSet.close();
                 resultSet = null;
             }
             if (statement != null) {
