@@ -4,6 +4,7 @@ import Utils.DaoUtils;
 import Utils.LogUtils;
 import com.google.gson.Gson;
 import constants.Constants;
+import entity.Response;
 import entity.SqlParam;
 import entity.User;
 
@@ -32,7 +33,8 @@ public class Databases extends HttpServlet {
         SqlParam[] params = {new SqlParam("userId",100000001)};
         List<User> list =  DaoUtils.findByParams(User.class,params);
         Gson gson = new Gson();
-        String str = gson.toJson(list.get(0));
+        String str = gson.toJson(new Response<User>(1,list.get(0)));
+
         LogUtils.d("JSON:"+str);
 
 //        User user = new User();
