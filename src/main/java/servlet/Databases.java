@@ -2,8 +2,7 @@ package servlet;
 
 import Utils.DaoUtils;
 import Utils.LogUtils;
-import Utils.SqlHelper;
-import Utils.SqlParameter;
+import com.google.gson.Gson;
 import constants.Constants;
 import entity.SqlParam;
 import entity.User;
@@ -14,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,9 +29,11 @@ public class Databases extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        SqlParam[] params = {new SqlParam("nickname","henry"),new SqlParam("username","henry")};
-//        List<User> list =  DaoUtils.findByParams(User.class,params);
-
+        SqlParam[] params = {new SqlParam("userId",100000001)};
+        List<User> list =  DaoUtils.findByParams(User.class,params);
+        Gson gson = new Gson();
+        String str = gson.toJson(list.get(0));
+        LogUtils.d("JSON:"+str);
 
 //        User user = new User();
 //        user.setUserId(100000004);
@@ -42,8 +41,8 @@ public class Databases extends HttpServlet {
 //        user.setPhone("ds343");
 //        user.setLastAccessTimeMillis(81254335);
 //        int ret = DaoUtils.update(user);
-        List<User> list = DaoUtils.findAll(User.class);
-        DaoUtils.delete(list.get(3));
+//        List<User> list = DaoUtils.findAll(User.class);
+//        DaoUtils.delete(list.get(3));
         for (User user1 : DaoUtils.findAll(User.class)) {
             System.out.println(user1.toString());
 //            try {
