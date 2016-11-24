@@ -81,4 +81,16 @@ public class EntityUtils {
         }
         return maps;
     }
+
+    public static <T> T nullToSpace(T entity) throws IllegalAccessException {
+
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            if (field.get(entity)==null){
+                field.set(entity,"");
+            }
+        }
+        return entity;
+    }
 }

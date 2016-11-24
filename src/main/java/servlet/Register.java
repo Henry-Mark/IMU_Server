@@ -24,7 +24,7 @@ import java.util.List;
 public class Register extends BaseHttpServlet {
 
     /**
-     * request: login={"account":"henry","nickname":"henry","password":"123456"}
+     * request: register={"account":"henry","nickname":"henry","password":"123456"}
      * response:
      * 1.正常数据
      * 2.该账号已存在
@@ -46,11 +46,11 @@ public class Register extends BaseHttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 接收客户端信息
-        String username = req.getParameter(param);
+        String data = req.getParameter(param);
         Gson gson = new Gson();
         String response = null;
-        if (username != null) {
-            User user = gson.fromJson(username, User.class);
+        if (data != null) {
+            User user = gson.fromJson(data, User.class);
             if (user.getAccount() != null && user.getNickname() != null && user.getPassword() != null) {
                 //查看数据表中已有内容，判断是否已经存在该用户
                 List<User> list = DaoUtils.findByParams(User.class, new SqlParam("account", user.getAccount()));
@@ -61,6 +61,7 @@ public class Register extends BaseHttpServlet {
                     //添加注册时间、访问时间
                     user.setLastAccessTimeMillis(System.currentTimeMillis());
                     user.setRegistrationTimeMillis(System.currentTimeMillis());
+                    user.setState(1);//设置在线状态
                     if (DaoUtils.insert(user) == -1) {
                         LogErr("添加用户失败");
                     } else {

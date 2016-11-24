@@ -35,6 +35,12 @@ public class User {
      */
     private int type;
     /**
+     * 状态：
+     * 0.离线
+     * 1.在线
+     */
+    private int state;
+    /**
      * 年龄
      */
     private int age;
@@ -92,6 +98,7 @@ public class User {
                 + "\naddress=" + address
                 + "\nRegistrationTimeMillis=" + RegistrationTimeMillis
                 + "\nLastAccessTimeMillis=" + LastAccessTimeMillis
+                + "\nstate=" + state
                 + "\nReservedfiled1=" + Reservedfiled1
                 + "\nReservedfiled2=" + Reservedfiled2;
         return string;
@@ -207,6 +214,14 @@ public class User {
 
     public long getLastAccessTimeMillis() {
         return LastAccessTimeMillis;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getState() {
+        return state;
     }
 
     public void setReservedfiled1(String reservedfiled1) {
