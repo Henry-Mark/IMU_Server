@@ -1,5 +1,7 @@
 package servlet;
 
+import Utils.LogUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,28 @@ public class BaseHttpServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 设置响应内容类型
         resp.setContentType("text/html;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req,resp);
+        doGet(req, resp);
+    }
+
+    /**
+     * 打印错误日志
+     *
+     * @param c
+     */
+    protected void LogErr(CharSequence c) {
+        LogUtils.e(getClass() + ":  " + c);
+    }
+
+    /**
+     * 打印调试日志
+     * @param c
+     */
+    protected void LogD(CharSequence c) {
+        LogUtils.d(getClass() + ":    " + c);
     }
 }

@@ -156,7 +156,7 @@ public class DaoUtils {
      * @param <T>
      * @return
      */
-    public static <T> int update(T entity) {
+    public static <T> int insert(T entity) {
         int ret = -1;
         String sql = "INSERT INTO " + getTableName(entity.getClass()) + "( ";
         String sql_key = null;

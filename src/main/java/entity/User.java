@@ -13,6 +13,10 @@ public class User {
      */
     private int userId;
     /**
+     * 账号
+     */
+    private String account;
+    /**
      * 用户昵称
      */
     private String nickname;
@@ -75,6 +79,7 @@ public class User {
     public String toString() {
         String string = "USER:"
                 + "\nuserId=" + userId
+                + "\naccount=" + account
                 + "\nnickname=" + nickname
                 + "\nusername=" + username
                 + "\npassword=" + password
@@ -98,6 +103,14 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getNickname() {
