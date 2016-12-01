@@ -9,6 +9,7 @@ import entity.SqlParam;
 import entity.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,16 +27,17 @@ import java.util.List;
  * time: 2016/11/8. 11:25
  * description:
  */
+@WebServlet("/Databases")
 public class Databases extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SqlParam[] params = {new SqlParam("userId",100000001)};
-        List<User> list =  DaoUtils.findByParams(User.class,params);
-        Gson gson = new Gson();
-        String str = gson.toJson(new Response<User>(1,list.get(0)));
+//        SqlParam[] params = {new SqlParam("userId",100000001)};
+//        List<User> list =  DaoUtils.findByParams(User.class,params);
+//        Gson gson = new Gson();
+//        String str = gson.toJson(new Response<User>(1,list.get(0)));
 
-        LogUtils.d("JSON:"+str);
+//        LogUtils.d("JSON:"+str);
 
 //        User user = new User();
 //        user.setUserId(100000004);
@@ -45,8 +47,8 @@ public class Databases extends HttpServlet {
 //        int ret = DaoUtils.update(user);
 //        List<User> list = DaoUtils.findAll(User.class);
 //        DaoUtils.delete(list.get(3));
-        for (User user1 : DaoUtils.findAll(User.class)) {
-            System.out.println(user1.toString());
+//        for (User user1 : DaoUtils.findAll(User.class)) {
+//            System.out.println(user1.toString());
 //            try {
 //                List<HashMap> maps = DaoUtils.reflect(user);
 //                for (HashMap<String, Object> map : maps) {
@@ -56,7 +58,7 @@ public class Databases extends HttpServlet {
 //            } catch (IllegalAccessException e) {
 //                e.printStackTrace();
 //            }
-        }
+//        }
         getServletContext().log("日志日志顶呱呱");
 //        User user = new User();
 //        System.out.println("isTrue:"+DaoUtils.s(user,"userId"));

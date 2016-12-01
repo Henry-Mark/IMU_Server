@@ -5,31 +5,5 @@
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
 
-    <servlet>
-        <servlet-name>Databases</servlet-name>
-        <servlet-class>servlet.Databases</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Databases</servlet-name>
-        <url-pattern>/Databases</url-pattern>
-    </servlet-mapping>
-    <!--注册-->
-    <servlet>
-        <servlet-name>Resgister</servlet-name>
-        <servlet-class>servlet.Register</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Resgister</servlet-name>
-        <url-pattern>/Resgister</url-pattern>
-    </servlet-mapping>
-    <!--登录-->
-    <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>servlet.Login</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Login</servlet-name>
-        <url-pattern>/Login</url-pattern>
-    </servlet-mapping>
 
 </web-app>

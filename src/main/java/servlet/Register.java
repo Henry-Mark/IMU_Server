@@ -8,6 +8,7 @@ import entity.SqlParam;
 import entity.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.List;
  * time: 2016/11/23. 17:21
  * description:注册
  */
+@WebServlet("/Resgister")
 public class Register extends BaseHttpServlet {
 
     /**

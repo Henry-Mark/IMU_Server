@@ -9,6 +9,7 @@ import entity.SqlParam;
 import entity.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.List;
  * time: 2016/11/24. 14:54
  * description:登录
  */
+@WebServlet("/Login")
 public class Login extends BaseHttpServlet {
 
     /**
