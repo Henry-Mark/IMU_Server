@@ -17,8 +17,8 @@ import java.net.URLEncoder;
  * time: 2016/12/1. 13:43
  * description:头像图片下载
  */
-@WebServlet("/Avatar")
-public class Avatar extends HttpServlet {
+@WebServlet("/download/avatar")
+public class getAvatar extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
