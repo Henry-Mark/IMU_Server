@@ -1,8 +1,8 @@
 package servlet.upload;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import servlet.BaseHttpServlet;
 
 import javax.servlet.ServletException;
@@ -23,13 +23,16 @@ import java.util.List;
 @WebServlet("/upload/avatar")
 public class setAvatar extends BaseHttpServlet {
 
-    List piclist=new ArrayList();  //放上传的图片名
+    List piclist = new ArrayList();  //放上传的图片名
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (isSystemLinux()){
+        if (isSystemLinux()) {
             LogD("Linux");
+            LogD(System.getProperties().getProperty("os.name"));
         }
+        if (isSystemWindows())
+            LogD(System.getProperties().getProperty("os.name"));
     }
 
     @Override

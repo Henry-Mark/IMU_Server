@@ -8,6 +8,8 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.hynnet:javax.servlet-api:4.0.0-b01" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-coyote:7.0.22" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:7.0.22" />
         </element>
       </element>
       <element id="directory" name="META-INF">

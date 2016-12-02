@@ -37,6 +37,21 @@ public class BaseHttpServlet extends HttpServlet {
      * @return
      */
     protected boolean isSystemLinux() {
-        return System.getProperties().getProperty("os.name").equalsIgnoreCase("Linux");
+        if (System.getProperties().getProperty("os.name").indexOf("Linux") == -1) {
+            return false;
+        } else
+            return true;
+    }
+
+    /**
+     * 判断当前系统是否为Windows系统
+     *
+     * @return
+     */
+    protected boolean isSystemWindows() {
+        if (System.getProperties().getProperty("os.name").indexOf("Windows") == -1) {
+            return false;
+        } else
+            return true;
     }
 }
