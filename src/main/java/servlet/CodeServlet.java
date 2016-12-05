@@ -81,7 +81,7 @@ public class CodeServlet extends BaseHttpServlet {
                 new NameValuePair("Uid", Constants.Message.UID),// 注册的用户名
                 new NameValuePair("Key", Constants.Message.KEY),// 注册成功后，登录网站后得到的密钥
                 new NameValuePair("smsMob", phone),// 手机号码
-                new NameValuePair("smsText", "验证码：" + msg)};// 短信内容
+                new NameValuePair("smsText", msg)};// 短信内容
         post.setRequestBody(data);
 
         client.executeMethod(post);
