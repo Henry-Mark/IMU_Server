@@ -23,7 +23,7 @@ import java.util.List;
  * description:注册
  */
 @WebServlet("/Resgister")
-public class Register extends BaseHttpServlet {
+public class RegisterServlet extends BaseHttpServlet {
 
     /**
      * request: register={"account":"henry","nickname":"henry","password":"123456"}

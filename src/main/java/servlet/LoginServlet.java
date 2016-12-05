@@ -24,7 +24,7 @@ import java.util.List;
  * description:登录
  */
 @WebServlet("/Login")
-public class Login extends BaseHttpServlet {
+public class LoginServlet extends BaseHttpServlet {
 
     /**
      * request: login={"account":"hh","password":"123456"}

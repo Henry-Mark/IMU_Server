@@ -28,4 +28,14 @@ public class Constants {
         //消息表，存储聊天的消息
         public static final String MESSAGE = "MESSAGE";
     }
+
+    /**
+     * 短信
+     */
+    public class Message {
+        /* 短信平台接口密钥*/
+        public static final String KEY = "8f3ae08f89c95a29b9d8";
+        /* 短信平台注册的用户名*/
+        public static final String UID = "Henry_Mark";
+    }
 }
