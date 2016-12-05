@@ -25,7 +25,7 @@ import java.util.Random;
  * Creator:henry
  * email:heneymark@gmail.com
  * time: 2016/12/5. 9:32
- * description:
+ * description:获取验证码
  */
 @WebServlet("/Code")
 public class CodeServlet extends BaseHttpServlet {
@@ -56,6 +56,7 @@ public class CodeServlet extends BaseHttpServlet {
 
     /**
      * 获取消息
+     *
      * @param code
      * @return
      */
