@@ -1,6 +1,7 @@
 package Utils;
 
 import constants.Constants;
+import entity.Friend;
 import entity.SqlParam;
 import entity.User;
 
@@ -28,6 +29,8 @@ public class DaoUtils {
         String table = null;
         if (cls == User.class)
             table = Constants.Table.USER;
+        else if (cls == Friend.class)
+            table = Constants.Table.FRIEND;
         return table;
     }
 

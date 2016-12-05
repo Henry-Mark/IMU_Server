@@ -30,6 +30,15 @@ import java.util.Random;
 @WebServlet("/Code")
 public class CodeServlet extends BaseHttpServlet {
 
+    /**
+     * request: phone="12345689876"
+     * response:
+     * 1.正常数据
+     * 2.该账号已存在
+     * 3.错误参数
+     * 4.某参数值为空
+     */
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);

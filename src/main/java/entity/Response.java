@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wangbl on 2016/11/23.
  * Creator:henry
@@ -11,10 +14,16 @@ public class Response<T> {
 
     private int code;
     private T data;
+    private List<T> datas = new ArrayList<T>();
 
     public Response(int code, T data) {
         this.code = code;
         this.data = data;
+    }
+
+    public Response(int code, List<T> datas) {
+        this.code = code;
+        this.datas = datas;
     }
 
     public void setCode(int code) {
@@ -31,5 +40,13 @@ public class Response<T> {
 
     public T getData() {
         return data;
+    }
+
+    public void setDatas(List<T> datas) {
+        this.datas = datas;
+    }
+
+    public List<T> getDatas() {
+        return datas;
     }
 }

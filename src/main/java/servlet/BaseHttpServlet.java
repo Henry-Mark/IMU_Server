@@ -3,6 +3,9 @@ package servlet;
 import Utils.LogUtils;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by wangbl on 2016/11/23.
@@ -53,5 +56,23 @@ public class BaseHttpServlet extends HttpServlet {
             return false;
         } else
             return true;
+    }
+
+    /**
+     * 向客户端返回消息
+     *
+     * @param resp
+     * @param msg
+     * @throws IOException
+     */
+    protected void putMsg(HttpServletResponse resp, String msg) throws IOException {
+        if (msg != null) {
+            resp.setContentType("text/html;charset=UTF-8");
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.print(msg);
+            out.flush();
+            out.close();
+        }
     }
 }

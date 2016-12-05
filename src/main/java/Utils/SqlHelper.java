@@ -184,7 +184,7 @@ public class SqlHelper {
             conn = getConnection();
             preparedStatement = conn.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+             while (resultSet.next()) {
                 T obj = executeResultSet(cls, resultSet);
                 list.add(obj);
             }

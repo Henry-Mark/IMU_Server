@@ -76,9 +76,9 @@ public class User {
      */
     private long LastAccessTimeMillis;
     /**
-     * 预留key
+     * 上次修改好友列表时间
      */
-    private String Reservedfiled1;
+    private long friendLastChangedTimeMillis;
     private String Reservedfiled2;
 
     @Override
@@ -99,7 +99,7 @@ public class User {
                 + "\nRegistrationTimeMillis=" + RegistrationTimeMillis
                 + "\nLastAccessTimeMillis=" + LastAccessTimeMillis
                 + "\nstate=" + state
-                + "\nReservedfiled1=" + Reservedfiled1
+                + "\nfriendLastChangedTimeMillis=" + friendLastChangedTimeMillis
                 + "\nReservedfiled2=" + Reservedfiled2;
         return string;
     }
@@ -224,12 +224,12 @@ public class User {
         return state;
     }
 
-    public void setReservedfiled1(String reservedfiled1) {
-        Reservedfiled1 = reservedfiled1;
+    public void setFriendLastChangedTimeMillis(long friendLastChangedTimeMillis) {
+        this.friendLastChangedTimeMillis = friendLastChangedTimeMillis;
     }
 
-    public String getReservedfiled1() {
-        return Reservedfiled1;
+    public long getFriendLastChangedTimeMillis() {
+        return friendLastChangedTimeMillis;
     }
 
     public void setReservedfiled2(String reservedfiled2) {

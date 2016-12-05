@@ -63,6 +63,7 @@ public class RegisterServlet extends BaseHttpServlet {
                     //添加注册时间、访问时间
                     user.setLastAccessTimeMillis(System.currentTimeMillis());
                     user.setRegistrationTimeMillis(System.currentTimeMillis());
+                    user.setFriendLastChangedTimeMillis(System.currentTimeMillis());
                     user.setState(1);//设置在线状态
                     if (DaoUtils.insert(user) == -1) {
                         LogErr("添加用户失败");
