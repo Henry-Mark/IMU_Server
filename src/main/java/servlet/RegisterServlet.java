@@ -35,7 +35,7 @@ public class RegisterServlet extends BaseHttpServlet {
      */
 
     //参数
-    private String param = "register";
+    private String param = "registerMsg";
 
     /**
      * get方法

@@ -35,7 +35,7 @@ public class LoginServlet extends BaseHttpServlet {
      * 4.错误参数
      */
     //参数
-    private String param = "login";
+    private String param = "loginMsg";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

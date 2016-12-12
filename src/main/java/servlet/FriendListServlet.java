@@ -24,7 +24,12 @@ import java.util.List;
 
 @WebServlet("/friendlist")
 public class FriendListServlet extends BaseHttpServlet {
-
+    /**
+     * request: id=100001
+     * response:
+     * 1.正常数据
+     * 2.空数据
+     */
     private String param = "id";
 
     @Override

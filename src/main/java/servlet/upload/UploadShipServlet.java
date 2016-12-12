@@ -1,9 +1,6 @@
 package servlet.upload;
 
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,59 +29,59 @@ public class UploadShipServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.doPost(request, response);
     }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=utf-8");
-        request.setCharacterEncoding("utf-8");
-        response.setCharacterEncoding("utf-8");
-        PrintWriter out = response.getWriter();
-
-        // 创建文件项目工厂对象
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        // 设置文件上传路径
-        String upload = this.getServletContext().getRealPath("/");
-
-        // 获取系统默认的临时文件保存路径，该路径为Tomcat根目录下的temp文件夹
-        String temp = System.getProperty("java.io.tmpdir");
-        // 设置缓冲区大小为 5M
-        factory.setSizeThreshold(1024 * 1024 * 5);
-        // 设置临时文件夹为temp
-        factory.setRepository(new File(temp));
-        // 用工厂实例化上传组件,ServletFileUpload 用来解析文件上传请求
-        ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
-
-        // 解析结果放在List中
-        try {
-            List<FileItem> list = servletFileUpload.parseRequest(request);
-
-            for (FileItem item : list) {
-                String name = item.getFieldName();
-                InputStream is = item.getInputStream();
-
-                if (name.contains("content")) {
-                    System.out.println(inputStream2String(is));
-                } else if (name.contains("img")) {
-                    try {
-                        path = upload+"\\"+item.getName();
-                        inputStream2File(is, path);
-                        break;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            out.write(path);  //这里我把服务端成功后，返回给客户端的是上传成功后路径
-        } catch (FileUploadException e) {
-            e.printStackTrace();
-            System.out.println("failure");
-            out.write("failure");
-        }
-
-        out.flush();
-        out.close();
-    }
+//
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//        response.setContentType("text/html;charset=utf-8");
+//        request.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+//        PrintWriter out = response.getWriter();
+//
+//        // 创建文件项目工厂对象
+//        DiskFileItemFactory factory = new DiskFileItemFactory();
+//
+//        // 设置文件上传路径
+//        String upload = this.getServletContext().getRealPath("/");
+//
+//        // 获取系统默认的临时文件保存路径，该路径为Tomcat根目录下的temp文件夹
+//        String temp = System.getProperty("java.io.tmpdir");
+//        // 设置缓冲区大小为 5M
+//        factory.setSizeThreshold(1024 * 1024 * 5);
+//        // 设置临时文件夹为temp
+//        factory.setRepository(new File(temp));
+//        // 用工厂实例化上传组件,ServletFileUpload 用来解析文件上传请求
+//        ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
+//
+//        // 解析结果放在List中
+//        try {
+//            List<FileItem> list = servletFileUpload.parseRequest(request);
+//
+//            for (FileItem item : list) {
+//                String name = item.getFieldName();
+//                InputStream is = item.getInputStream();
+//
+//                if (name.contains("content")) {
+//                    System.out.println(inputStream2String(is));
+//                } else if (name.contains("img")) {
+//                    try {
+//                        path = upload+"\\"+item.getName();
+//                        inputStream2File(is, path);
+//                        break;
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//            out.write(path);  //这里我把服务端成功后，返回给客户端的是上传成功后路径
+//        } catch (FileUploadException e) {
+//            e.printStackTrace();
+//            System.out.println("failure");
+//            out.write("failure");
+//        }
+//
+//        out.flush();
+//        out.close();
+//    }
 
     // 流转化成字符串
     public static String inputStream2String(InputStream is) throws IOException {
