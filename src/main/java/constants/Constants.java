@@ -26,7 +26,7 @@ public class Constants {
         //用户表，存储用户基本信息
         public static final String USER = "USER";
         //消息表，存储聊天的消息
-        public static final String MESSAGE = "MESSAGE";
+        public static final String CHATMSG = "CHATMSG";
         //好友表，存储好友消息
         public static final String FRIEND = "FRIEND";
 
@@ -41,5 +41,16 @@ public class Constants {
         public static final String KEY = "8f3ae08f89c95a29b9d8";
         /* 短信平台注册的用户名*/
         public static final String UID = "Henry_Mark";
+    }
+
+    /**
+     * 用户实体
+     */
+    public class User{
+        /**
+         * 用户状态，1.在线，0.离线（与服务器未连接）
+         */
+        public final static int ONLINE = 1;
+        public final static int OFFLINE = 0;
     }
 }

@@ -1,6 +1,7 @@
 package Utils;
 
 import constants.Constants;
+import entity.ChatMsg;
 import entity.Friend;
 import entity.SqlParam;
 import entity.User;
@@ -16,7 +17,13 @@ import java.util.List;
  * description: 数据库实体辅助类
  */
 public class DaoUtils {
-
+    /**
+     * 方便查找等功能，需要的参数
+     */
+    public static final String USER_ID = "userId";
+    public static final String USER_STATE = "state";
+    public static final String CHATMSG_TOUSERID = "toUserId";
+    public static final String FRIEND_USERID = "userUid";
 
     /**
      * 根据实体找到对应的数据表
@@ -31,6 +38,9 @@ public class DaoUtils {
             table = Constants.Table.USER;
         else if (cls == Friend.class)
             table = Constants.Table.FRIEND;
+        else if ((cls == ChatMsg.class)) {
+            table = Constants.Table.CHATMSG;
+        }
         return table;
     }
 

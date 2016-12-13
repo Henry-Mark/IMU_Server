@@ -27,7 +27,7 @@ import java.util.List;
 public class LoginServlet extends BaseHttpServlet {
 
     /**
-     * request: login={"account":"hh","password":"123456"}
+     * request: loginMsg={"account":"hh","password":"123456"}
      * response:
      * 1.正常数据
      * 2.账号或密码错误
@@ -51,10 +51,10 @@ public class LoginServlet extends BaseHttpServlet {
             List<User> users = DaoUtils.findByParams(User.class, params);
             //账号密码正确
             if (users != null && users.size() == 1) {
+                user = users.get(0);
                 user.setState(1);//设置为在线状态
                 if (DaoUtils.update(user, new SqlParam("account", user.getAccount())) != -1) {
-                    users.get(0).setState(1);
-                    response = gson.toJson(new Response<User>(1, users.get(0)));
+                    response = gson.toJson(new Response<User>(1, user));
                     LogD("返回：" + response);
                 }
             } else {

@@ -8,6 +8,7 @@ package entity;
  * description: 用户实体，对应User表
  */
 public class User {
+
     /**
      * 用户ID
      */

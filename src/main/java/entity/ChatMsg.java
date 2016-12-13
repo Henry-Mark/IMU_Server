@@ -22,10 +22,6 @@ public class ChatMsg extends Message {
     private int fromUserId;
     /*消息接收者ID*/
     private int toUserId;
-    /**
-     * 发送时间（发送成功的时间）（ms）
-     */
-    private long SendTimeMillis;
 
     /**
      * 图片或视频url
@@ -41,7 +37,6 @@ public class ChatMsg extends Message {
                 + "\nstate=" + state
                 + "\nfromUserId=" + fromUserId
                 + "\ntoUserId=" + toUserId
-                + "\nSendTimeMillis=" + SendTimeMillis
                 + "\nmediaUrl=" + mediaUrl
                 + "\nthumbnailUrl=" + thumbnailUrl;
         return str;
@@ -79,13 +74,6 @@ public class ChatMsg extends Message {
         return toUserId;
     }
 
-    public void setSendTimeMillis(long sendTimeMillis) {
-        SendTimeMillis = sendTimeMillis;
-    }
-
-    public long getSendTimeMillis() {
-        return SendTimeMillis;
-    }
 
     public void setMediaUrl(String mediaUrl) {
         this.mediaUrl = mediaUrl;

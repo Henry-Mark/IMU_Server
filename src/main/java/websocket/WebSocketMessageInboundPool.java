@@ -1,12 +1,15 @@
 package websocket;
 
+import Utils.DaoUtils;
+import Utils.DataDaoUtils;
+import Utils.LogUtils;
+import entity.Friend;
+import entity.SqlParam;
 import entity.User;
 
 import java.io.IOException;
 import java.nio.CharBuffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by wangbl on 2016/12/12.
@@ -27,7 +30,7 @@ public class WebSocketMessageInboundPool {
      */
     public static void addMessageInbound(WebSocketMessageInbound inbound) {
         //添加连接
-        System.out.println("user : " + inbound.getUser().getAccount() + " join..");
+        LogUtils.i("user " + inbound.getUser().getAccount() + " join..");
         connections.put(inbound.getUser().getAccount(), inbound);
     }
 
@@ -46,7 +49,7 @@ public class WebSocketMessageInboundPool {
      * @param inbound
      */
     public static void removeMessageInbound(WebSocketMessageInbound inbound) {
-        System.out.println("user : " + inbound.getUser().getAccount() + " exit..");
+        LogUtils.i("user " + inbound.getUser().getAccount() + " exit..");
         connections.remove(inbound.getUser().getAccount());
     }
 
@@ -58,7 +61,6 @@ public class WebSocketMessageInboundPool {
      */
     public static void sendMessageToUser(User user, String message) {
         try {
-            System.out.println("send message to user : " + user + " ,message content : " + message);
             WebSocketMessageInbound inbound = connections.get(user);
             if (inbound != null) {
                 inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(message));
@@ -79,12 +81,51 @@ public class WebSocketMessageInboundPool {
             for (String key : keySet) {
                 WebSocketMessageInbound inbound = connections.get(key);
                 if (inbound != null) {
-                    System.out.println("send message to user : " + key + " ,message content : " + message);
                     inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(message));
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * 向所有在线好友发送消息
+     *
+     * @param inbound
+     * @param message
+     */
+    public static void sendMessageToOnLineFriend(WebSocketMessageInbound inbound, String message) {
+        for (User user : getOnLineFriendList(inbound)) {
+            sendMessageToUser(user, message);
+        }
+    }
+
+
+    /**
+     * 获取所有在线好友
+     *
+     * @param inbound
+     * @return
+     */
+    private static List<User> getOnLineFriendList(WebSocketMessageInbound inbound) {
+        List<User> users = new ArrayList<User>();
+        //所有好友
+        List<Friend> friends = DataDaoUtils.getFriendList(inbound.getUser());
+        //所有在线用户
+        Set<String> keySet = connections.keySet();
+
+        for (String key : keySet) {
+            WebSocketMessageInbound bound = connections.get(key);
+            if (bound != null && bound.getUser() != null) {
+                for (Friend friend : friends) {
+                    if (friend.getFriendUid() == bound.getUser().getUserId()) {
+                        users.add(bound.getUser());
+                    }
+                }
+            }
+        }
+        return users;
     }
 }

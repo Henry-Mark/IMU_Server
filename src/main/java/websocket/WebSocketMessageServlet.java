@@ -30,7 +30,7 @@ public class WebSocketMessageServlet extends WebSocketServlet {
      */
     public User getUser(HttpServletRequest request) {
         String value = request.getParameter(param);
-        List<User> users = DaoUtils.findByParams(User.class, new SqlParam("userId", Integer.valueOf(value)));
+        List<User> users = DaoUtils.findByParams(User.class, new SqlParam(DaoUtils.USER_ID, Integer.valueOf(value)));
         if (users != null && users.size() != 0)
             return users.get(0);
         else

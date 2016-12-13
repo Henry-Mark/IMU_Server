@@ -19,6 +19,7 @@ public class Response<T> {
     public Response(int code, T data) {
         this.code = code;
         this.data = data;
+        this.datas = null;
     }
 
     public Response(int code, List<T> datas) {
