@@ -1,7 +1,6 @@
 package servlet;
 
 import Utils.DaoUtils;
-import Utils.EntityUtils;
 import com.google.gson.Gson;
 import entity.RespDataStr;
 import entity.Response;

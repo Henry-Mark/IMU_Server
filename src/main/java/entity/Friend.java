@@ -27,7 +27,7 @@ public class Friend {
     /**
      * 标签（将好友分类）
      */
-    private String lable;
+    private String label;
     /*备注名*/
     private String remarkName;
     /**
@@ -47,7 +47,7 @@ public class Friend {
                 + "\nbeFriendTimeMillis=" + beFriendTimeMillis
                 + "\nsplitTimeMillis=" + splitTimeMillis
                 + "\nintimacy=" + intimacy
-                + "\nlable=" + lable;
+                + "\nlabel=" + label;
         return string;
     }
 
@@ -91,12 +91,12 @@ public class Friend {
         return splitTimeMillis;
     }
 
-    public void setLable(String lable) {
-        this.lable = lable;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getLable() {
-        return lable;
+    public String getLabel() {
+        return label;
     }
 
     public void setIntimacy(int intimacy) {
