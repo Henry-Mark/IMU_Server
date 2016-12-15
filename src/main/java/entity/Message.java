@@ -10,9 +10,11 @@ package entity;
 public class Message {
 
     public static final String CHAT = "chat";                           //聊天
+    public static final String CHAT_BACK = "chat_back";                   //聊天返回确认，表示发送成功
     public static final String ADDFRIEND = "addfriend";                 // 添加好友
     public static final String ONLINE_REMINDER = "onlineReminder";    //好友上线提醒
     public static final String OFFLINE_REMINDER = "offlineReminder";    //好友下线提醒
+
 
     /**
      * 消息类型：
@@ -24,13 +26,19 @@ public class Message {
     private String content;
 
     /**
+     * 用于识别消息
+     */
+    private long uid;
+
+    /**
      * 发送时间（发送成功的时间）（ms）
      */
     private long SendTimeMillis;
 
 
-    public Message(String type, String content, long sendTimeMillis) {
+    public Message(String type, String content, long sendTimeMillis, long uid) {
         this.type = type;
+        this.uid = uid;
         this.content = content;
         this.SendTimeMillis = sendTimeMillis;
     }
@@ -63,10 +71,20 @@ public class Message {
         return SendTimeMillis;
     }
 
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+
     @Override
     public String toString() {
         String str = "type=" + type
                 + "\ncontent=" + content
+                + "\nuid=" + uid
                 + "\nSendTimeMillis=" + SendTimeMillis;
         return super.toString();
     }

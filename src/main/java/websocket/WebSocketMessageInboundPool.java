@@ -53,6 +53,7 @@ public class WebSocketMessageInboundPool {
         connections.remove(inbound.getUser().getAccount());
     }
 
+
     /**
      * 向特定的用户发送数据
      *
@@ -61,7 +62,7 @@ public class WebSocketMessageInboundPool {
      */
     public static void sendMessageToUser(User user, String message) {
         try {
-            WebSocketMessageInbound inbound = connections.get(user);
+            WebSocketMessageInbound inbound = connections.get(user.getAccount());
             if (inbound != null) {
                 inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(message));
             }
@@ -127,5 +128,24 @@ public class WebSocketMessageInboundPool {
             }
         }
         return users;
+    }
+
+    /**
+     * 判断用户是否在线
+     *
+     * @param inbound
+     * @param id
+     * @return 在线则返回用户信息，不在线则返回null
+     */
+    public static User isUserInPool(WebSocketMessageInbound inbound, long id) {
+        //所有在线用户
+        Set<String> keySet = connections.keySet();
+        for (String key : keySet) {
+            WebSocketMessageInbound bound = connections.get(key);
+            if (bound != null && bound.getUser() != null && id == bound.getUser().getUserId()) {
+                return bound.getUser();
+            }
+        }
+        return null;
     }
 }

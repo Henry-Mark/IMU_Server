@@ -25,6 +25,11 @@ import java.util.List;
  */
 public class WebSocketMessageInbound extends MessageInbound {
 
+    /**
+     * 接收消息格式：
+     * {"fromUserId":100002,"messageType":0,"state":1,"toUserId":100000010,"SendTimeMillis":1481764735859,"content":"erfsaearfer","type":"chat"}
+     */
+
     //当前连接的用户名称
     private final User user;
 
@@ -67,7 +72,8 @@ public class WebSocketMessageInbound extends MessageInbound {
 
         //向所有好友发送上线提醒消息
         WebSocketMessageInboundPool.sendMessageToOnLineFriend(
-                this, gson.toJson(new Message(Message.ONLINE_REMINDER, user.getAccount(), System.currentTimeMillis())));
+                this, gson.toJson(new Message(Message.ONLINE_REMINDER,
+                        user.getAccount(), System.currentTimeMillis(),-1)));
     }
 
     @Override
@@ -81,15 +87,65 @@ public class WebSocketMessageInbound extends MessageInbound {
 
         //向所有好友发送下线提醒消息
         WebSocketMessageInboundPool.sendMessageToOnLineFriend(
-                this, gson.toJson(new Message(Message.OFFLINE_REMINDER, user.getAccount(), System.currentTimeMillis())));
+                this, gson.toJson(new Message(Message.OFFLINE_REMINDER,
+                        user.getAccount(), System.currentTimeMillis(),-1)));
     }
 
     protected void onBinaryMessage(ByteBuffer byteBuffer) throws IOException {
         throw new UnsupportedOperationException("Binary message not supported.");
     }
 
+    /**
+     * 接收消息
+     *
+     * @param charBuffer
+     * @throws IOException
+     */
     protected void onTextMessage(CharBuffer charBuffer) throws IOException {
+        LogUtils.i("get msg from " + user.getAccount() + "::    " + charBuffer.toString());
+        ChatMsg msg = gson.fromJson(charBuffer.toString(), ChatMsg.class);
+        LogUtils.d("msg=" + msg.toString());
+        String type = msg.getType();
+        if (type != null && !type.equals("")) {
+            if (type.equals(Message.CHAT)) {     //聊天消息
+                msg.setSendTimeMillis(System.currentTimeMillis());  //设置发送时间为当前时间
+                //在线
+                User userTo = WebSocketMessageInboundPool.isUserInPool(this, msg.getToUserId());
+                if (userTo != null) {
+                    //发送消息至对方
+                    msg.setState(1);    //设置为发送成功
+                    WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(msg)); //发送
+                    //写入数据库
+                    DaoUtils.insert(msg);
+                } else {
+                    msg.setState(2);    //设置为保存数据库待发送状态
+                    //写入数据库
+                    DaoUtils.insert(msg);
+                }
+                //返回确认消息
+                Message message = new Message(Message.CHAT_BACK, "", System.currentTimeMillis(), msg.getUid());
+                WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
+            } else if (type.equals(Message.ADDFRIEND)) {      //添加好友
+
+            }
+        }
         //向所有在线用户发送消息
-        WebSocketMessageInboundPool.sendMessage(charBuffer.toString());
+//        WebSocketMessageInboundPool.sendMessage(charBuffer.toString());
+    }
+
+    /**
+     * 判断用户是否在线
+     *
+     * @param userId
+     * @return
+     */
+    private boolean isUserOnline(long userId) {
+        List<User> users = DaoUtils.findByParams(User.class, new SqlParam(DaoUtils.USER_ID, userId));
+        if (users != null && users.size() != 0) {
+            if (users.get(0).getState() != 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

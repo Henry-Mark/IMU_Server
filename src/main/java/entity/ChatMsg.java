@@ -7,7 +7,7 @@ package entity;
  * time: 2016/12/5. 13:52
  * description:消息
  */
-public class ChatMsg extends Message {
+public class ChatMsg {
 
     /**
      * 消息类型（0.文字消息；1.图片消息；2.语音消息；3.小视频；4.文件；11.文字阅后即焚；12.图片阅后即焚；13.语音阅后即焚；14.视频阅后即焚）
@@ -30,6 +30,26 @@ public class ChatMsg extends Message {
     /*缩略图Url*/
     private String thumbnailUrl;
 
+    /**
+     * 消息类型：
+     * chat：聊天消息
+     * addfriend:添加好友
+     */
+    private String type;
+    /*消息内容*/
+    private String content;
+
+    /**
+     * 用于识别消息
+     */
+    private long uid;
+
+    /**
+     * 发送时间（发送成功的时间）（ms）
+     */
+    private long SendTimeMillis;
+
+
     @Override
     public String toString() {
         String str = super.toString()
@@ -40,6 +60,38 @@ public class ChatMsg extends Message {
                 + "\nmediaUrl=" + mediaUrl
                 + "\nthumbnailUrl=" + thumbnailUrl;
         return str;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setSendTimeMillis(long sendTimeMillis) {
+        SendTimeMillis = sendTimeMillis;
+    }
+
+    public long getSendTimeMillis() {
+        return SendTimeMillis;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public long getUid() {
+        return uid;
     }
 
     public void setMessageType(int messageType) {
@@ -73,7 +125,6 @@ public class ChatMsg extends Message {
     public int getToUserId() {
         return toUserId;
     }
-
 
     public void setMediaUrl(String mediaUrl) {
         this.mediaUrl = mediaUrl;
