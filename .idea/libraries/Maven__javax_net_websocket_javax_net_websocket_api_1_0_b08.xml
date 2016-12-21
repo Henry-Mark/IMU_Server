@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: javax.net.websocket:javax.net.websocket-api:1.0-b08">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/javax/net/websocket/javax.net.websocket-api/1.0-b08/javax.net.websocket-api-1.0-b08.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/javax/net/websocket/javax.net.websocket-api/1.0-b08/javax.net.websocket-api-1.0-b08-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/javax/net/websocket/javax.net.websocket-api/1.0-b08/javax.net.websocket-api-1.0-b08-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
