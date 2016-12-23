@@ -17,6 +17,9 @@ public class Message {
     public static final String ONLINE_REMINDER = "onlineReminder";    //好友上线提醒
     public static final String OFFLINE_REMINDER = "offlineReminder";    //好友下线提醒
 
+    public static final String DELETEFRIEND = "deletefriend";       //删除好友
+    public static final String DELETEFRIEND_BACK = "deletefriend_back";       //删除好友返回消息
+
 
     public static final String APPLY_AGREE = "agree";   //同意添加好友
     public static final String APPLY_DISAGREE = "disagree";   //同意添加好友
