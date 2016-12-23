@@ -12,8 +12,14 @@ public class Message {
     public static final String CHAT = "chat";                           //聊天
     public static final String CHAT_BACK = "chat_back";                   //聊天返回确认，表示发送成功
     public static final String ADDFRIEND = "addfriend";                 // 添加好友
+    public static final String ADDFRIEND_CONFORM = "addfriend_conform";                 // 好友申请确认
+    public static final String ADDFRIEND_BACK = "addfriend_back";                 // 好友申请消息返回
     public static final String ONLINE_REMINDER = "onlineReminder";    //好友上线提醒
     public static final String OFFLINE_REMINDER = "offlineReminder";    //好友下线提醒
+
+
+    public static final String APPLY_AGREE = "agree";   //同意添加好友
+    public static final String APPLY_DISAGREE = "disagree";   //同意添加好友
 
 
     /**
