@@ -1,20 +1,68 @@
 package servlet;
 
+import Utils.DaoUtils;
+import Utils.FileUtils;
 import Utils.LogUtils;
+import entity.SqlParam;
+import entity.User;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created by wangbl on 2016/11/23.
  * Creator:henry
  * email:heneymark@gmail.com
  * time: 2016/11/23. 17:51
- * description:
+ * description:servlet 基类
  */
 public class BaseHttpServlet extends HttpServlet {
+
+    /* 项目作用路径根目录 */
+    public static final String ROOTPATH = "D:" + File.separator + "IMU";
+    /* 图片路径目录 */
+    public static final String IMGPATH = ROOTPATH + File.separator + "img";
+    /* 头像保存路径 */
+    public static final String AVATARPATH = IMGPATH + File.separator + "avatar";
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        createDirs();
+    }
+
+    /**
+     * 创建文件目录
+     */
+    private void createDirs() {
+        //创建跟目录
+        if (FileUtils.createDir(ROOTPATH)) {
+            //图片目录
+            if (FileUtils.createDir(IMGPATH)) {
+                FileUtils.createDir(AVATARPATH);
+            }
+        }
+
+    }
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return
+     */
+    protected User getUserById(long id){
+        List<User> users = DaoUtils.findByParams(User.class,new SqlParam(DaoUtils.USER_ID,id));
+        if (users.isEmpty()||users.size()==0) {
+            return null;
+        }else {
+            return users.get(0);
+        }
+    }
 
     /**
      * 打印错误日志

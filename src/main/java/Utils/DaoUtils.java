@@ -24,6 +24,10 @@ public class DaoUtils {
     public static final String USER_STATE = "state";
     public static final String CHATMSG_TOUSERID = "toUserId";
     public static final String FRIEND_USERID = "userUid";
+    /* 账号 */
+    public static final String USER_ACCOUNT = "account";
+    /*  */
+    public static final String USER_PASSWORD = "password";
 
     /**
      * 根据实体找到对应的数据表

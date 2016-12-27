@@ -11,10 +11,28 @@ import java.io.IOException;
  * description: 文件辅助类
  */
 public class FileUtils {
-    /* 项目作用路径根目录 */
-    public static final String ROOTPATH = "D:" + File.separator + "IMU";
-    /* 图片路径地址 */
-    public static final String IMGPATH = ROOTPATH + File.separator + "img";
+
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param filePath
+     * @return
+     */
+    public static boolean isFileExists(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
+    }
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param file
+     * @return
+     */
+    public static boolean isFileExists(File file) {
+        return file.exists();
+    }
 
     /**
      * 创建文件

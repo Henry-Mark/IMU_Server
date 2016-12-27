@@ -57,9 +57,9 @@ public class User {
      */
     private int sex;
     /**
-     * 头像url
+     * 头像,命名规则，id+注册时间
      */
-    private String avatarUrl;
+    private String avatar;
     /**
      * 签名
      */
@@ -94,7 +94,7 @@ public class User {
                 + "\nage=" + age
                 + "\nphone=" + phone
                 + "\nsex=" + sex
-                + "\navatarUrl=" + avatarUrl
+                + "\navatarUrl=" + avatar
                 + "\nsignature=" + signature
                 + "\naddress=" + address
                 + "\nRegistrationTimeMillis=" + RegistrationTimeMillis
@@ -185,12 +185,12 @@ public class User {
         return address;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
     public void setSignature(String signature) {

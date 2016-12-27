@@ -46,7 +46,7 @@ public class LoginServlet extends BaseHttpServlet {
         if (data != null) {
             User user = gson.fromJson(data, User.class);
 
-            SqlParam[] params = {new SqlParam("account", user.getAccount()), new SqlParam("password", user.getPassword())};
+            SqlParam[] params = {new SqlParam(DaoUtils.USER_ACCOUNT, user.getAccount()), new SqlParam(DaoUtils.USER_PASSWORD, user.getPassword())};
             List<User> users = DaoUtils.findByParams(User.class, params);
             //账号密码正确
             if (users != null && users.size() == 1) {
