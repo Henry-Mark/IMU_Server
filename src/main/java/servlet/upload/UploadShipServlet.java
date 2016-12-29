@@ -1,7 +1,6 @@
 package servlet.upload;
 
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,7 @@ import java.util.List;
  * description:
  */
 @WebServlet("/upload")
-public class UploadShipServlet extends HttpServlet{
+public class UploadShipServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private String path;
 
