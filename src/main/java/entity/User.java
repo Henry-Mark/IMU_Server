@@ -1,5 +1,9 @@
 package entity;
 
+import Utils.DaoUtils;
+
+import java.util.List;
+
 /**
  * Created by wangbl on 2016/11/8.
  * Creator:henry
@@ -239,5 +243,19 @@ public class User {
 
     public String getReservedfiled2() {
         return Reservedfiled2;
+    }
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return
+     */
+    public static User getUserById(long id){
+        List<User> users = DaoUtils.findByParams(User.class,new SqlParam(DaoUtils.USER_ID,id));
+        if (users.isEmpty()||users.size()==0) {
+            return null;
+        }else {
+            return users.get(0);
+        }
     }
 }

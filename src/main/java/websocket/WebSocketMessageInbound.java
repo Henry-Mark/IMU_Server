@@ -63,8 +63,14 @@ public class WebSocketMessageInbound extends MessageInbound {
             for (int i = 0; i < chatMsgs.size(); i++) {
                 ChatMsg chatMsg = chatMsgs.get(i);
                 if (2 == chatMsg.getState()) {
-                    chatMsg.setType(Message.CHAT);
-                    WebSocketMessageInboundPool.sendMessageToUser(this.user, gson.toJson(chatMsgs.get(i)));
+//                    chatMsg.setType(Message.CHAT);
+                    if (chatMsg.getType() == Message.CHAT) {
+                        User toFriend = User.getUserById(chatMsg.getToUserId());
+                        if (toFriend != null) {
+                            WebSocketMessageInboundPool.sendMessageToUser(toFriend, gson.toJson(chatMsgs.get(i)));
+                            chatMsg.setState(1);        //设置状态为发送成功
+                        }
+                    }
                 }
             }
         }
@@ -72,7 +78,7 @@ public class WebSocketMessageInbound extends MessageInbound {
         //向所有好友发送上线提醒消息
         WebSocketMessageInboundPool.sendMessageToOnLineFriend(
                 this, gson.toJson(new Message(Message.ONLINE_REMINDER,
-                        user.getAccount(), System.currentTimeMillis(),-1)));
+                        user.getAccount(), System.currentTimeMillis(), -1)));
     }
 
     @Override
@@ -87,7 +93,7 @@ public class WebSocketMessageInbound extends MessageInbound {
         //向所有好友发送下线提醒消息
         WebSocketMessageInboundPool.sendMessageToOnLineFriend(
                 this, gson.toJson(new Message(Message.OFFLINE_REMINDER,
-                        user.getAccount(), System.currentTimeMillis(),-1)));
+                        user.getAccount(), System.currentTimeMillis(), -1)));
     }
 
     protected void onBinaryMessage(ByteBuffer byteBuffer) throws IOException {
@@ -107,7 +113,7 @@ public class WebSocketMessageInbound extends MessageInbound {
         String type = msg.getType();
         if (type != null && !type.equals("")) {
             if (type.equals(Message.CHAT)) {     //聊天消息
-               dealChatMsg(msg);
+                dealChatMsg(msg);
             } else if (type.equals(Message.ADDFRIEND)) {      //添加好友
 
             }
@@ -134,9 +140,10 @@ public class WebSocketMessageInbound extends MessageInbound {
 
     /**
      * 处理聊天消息
+     *
      * @param msg
      */
-    private void dealChatMsg(ChatMsg msg){
+    private void dealChatMsg(ChatMsg msg) {
         msg.setSendTimeMillis(System.currentTimeMillis());  //设置发送时间为当前时间
         //判断聊天对象是否在线
         User userTo = WebSocketMessageInboundPool.isUserInPool(this, msg.getToUserId());
@@ -156,12 +163,12 @@ public class WebSocketMessageInbound extends MessageInbound {
         WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
     }
 
-    private void dealFriendAddMsg(ChatMsg chatMsg){
+    private void dealFriendAddMsg(ChatMsg chatMsg) {
         //设置发送时间为当前时间
         chatMsg.setSendTimeMillis(System.currentTimeMillis());
         //判断添加的对象是否在线
         User userTo = WebSocketMessageInboundPool.isUserInPool(this, chatMsg.getToUserId());
-        if (userTo!=null){
+        if (userTo != null) {
             //发送消息至对方
             chatMsg.setState(1);    //设置为发送成功
             WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(chatMsg)); //发送
