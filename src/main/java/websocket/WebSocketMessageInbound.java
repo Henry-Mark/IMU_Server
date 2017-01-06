@@ -64,13 +64,15 @@ public class WebSocketMessageInbound extends MessageInbound {
                 ChatMsg chatMsg = chatMsgs.get(i);
                 if (2 == chatMsg.getState()) {
 //                    chatMsg.setType(Message.CHAT);
-                    if (chatMsg.getType() == Message.CHAT) {
-                        User toFriend = User.getUserById(chatMsg.getToUserId());
-                        if (toFriend != null) {
-                            WebSocketMessageInboundPool.sendMessageToUser(toFriend, gson.toJson(chatMsgs.get(i)));
-                            chatMsg.setState(1);        //设置状态为发送成功
-                        }
+//                    if (chatMsg.getType() == Message.CHAT) {
+                    User toFriend = User.getUserById(chatMsg.getToUserId());
+                    if (toFriend != null) {
+                        WebSocketMessageInboundPool.sendMessageToUser(toFriend, gson.toJson(chatMsgs.get(i)));
+                        chatMsg.setState(1);        //设置状态为发送成功
+
+                        DaoUtils.update(chatMsg, new SqlParam(DaoUtils.CHATMSG_UID, chatMsg.getUid()));
                     }
+//                    }
                 }
             }
         }
@@ -115,7 +117,7 @@ public class WebSocketMessageInbound extends MessageInbound {
             if (type.equals(Message.CHAT)) {     //聊天消息
                 dealChatMsg(msg);
             } else if (type.equals(Message.ADDFRIEND)) {      //添加好友
-
+                dealFriendAddMsg(msg);
             }
         }
         //向所有在线用户发送消息
@@ -163,9 +165,20 @@ public class WebSocketMessageInbound extends MessageInbound {
         WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
     }
 
+    /**
+     * 处理好友申请
+     *
+     * @param chatMsg
+     */
     private void dealFriendAddMsg(ChatMsg chatMsg) {
         //设置发送时间为当前时间
         chatMsg.setSendTimeMillis(System.currentTimeMillis());
+        //设置请求者Id
+        chatMsg.setFromUserId(user.getUserId());
+        //设置被请求者Id
+        chatMsg.setToUserId(Integer.valueOf(chatMsg.getContent().toString()));
+        //设置内容为空
+        chatMsg.setContent("");
         //判断添加的对象是否在线
         User userTo = WebSocketMessageInboundPool.isUserInPool(this, chatMsg.getToUserId());
         if (userTo != null) {
@@ -174,6 +187,14 @@ public class WebSocketMessageInbound extends MessageInbound {
             WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(chatMsg)); //发送
             //写入数据库
             DaoUtils.insert(chatMsg);
+        } else {
+            chatMsg.setState(2);    //设置为保存数据库待发送状态
+            //写入数据库
+            DaoUtils.insert(chatMsg);
         }
+
+        //返回确认消息
+        Message message = new Message(Message.ADDFRIEND, "", System.currentTimeMillis(), chatMsg.getUid());
+        WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
     }
 }

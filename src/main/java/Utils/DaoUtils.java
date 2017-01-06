@@ -28,6 +28,10 @@ public class DaoUtils {
     public static final String USER_ACCOUNT = "account";
     /*  */
     public static final String USER_PASSWORD = "password";
+    /* 消息发送状态 */
+    public static final String CHATMSG_STATE = "state";
+    /*  */
+    public static final String CHATMSG_UID = "uid";
 
     /**
      * 根据实体找到对应的数据表
