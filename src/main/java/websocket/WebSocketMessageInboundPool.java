@@ -65,6 +65,7 @@ public class WebSocketMessageInboundPool {
             WebSocketMessageInbound inbound = connections.get(user.getAccount());
             if (inbound != null) {
                 inbound.getWsOutbound().writeTextMessage(CharBuffer.wrap(message));
+                LogUtils.d("send to " + user.getAccount() + " >> " + message);
             }
         } catch (IOException e) {
             e.printStackTrace();
