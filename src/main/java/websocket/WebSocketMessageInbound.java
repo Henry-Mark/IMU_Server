@@ -118,6 +118,8 @@ public class WebSocketMessageInbound extends MessageInbound {
                 dealChatMsg(msg);
             } else if (type.equals(Message.ADDFRIEND)) {      //添加好友
                 dealFriendAddMsg(msg);
+            }else if (type.equals(Message.ADDFRIEND_CONFORM)){  //好友确认
+
             }
         }
         //向所有在线用户发送消息
@@ -146,6 +148,67 @@ public class WebSocketMessageInbound extends MessageInbound {
      * @param msg
      */
     private void dealChatMsg(ChatMsg msg) {
+        sendMsg(msg, Message.CHAT_BACK);
+//        msg.setSendTimeMillis(System.currentTimeMillis());  //设置发送时间为当前时间
+//        //判断聊天对象是否在线
+//        User userTo = WebSocketMessageInboundPool.isUserInPool(this, msg.getToUserId());
+//        if (userTo != null) {
+//            //发送消息至对方
+//            msg.setState(1);    //设置为发送成功
+//            WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(msg)); //发送
+//            //写入数据库
+//            DaoUtils.insert(msg);
+//        } else {
+//            msg.setState(2);    //设置为保存数据库待发送状态
+//            //写入数据库
+//            DaoUtils.insert(msg);
+//        }
+//        //返回确认消息
+//        Message message = new Message(Message.CHAT_BACK, "", System.currentTimeMillis(), msg.getUid());
+//        WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
+    }
+
+    /**
+     * 处理好友申请
+     *
+     * @param chatMsg
+     */
+    private void dealFriendAddMsg(ChatMsg chatMsg) {
+//        //设置发送时间为当前时间
+//        chatMsg.setSendTimeMillis(System.currentTimeMillis());
+        //设置请求者Id
+        chatMsg.setFromUserId(user.getUserId());
+        //设置被请求者Id
+        chatMsg.setToUserId(Integer.valueOf(chatMsg.getContent().toString()));
+        //设置内容为空
+        chatMsg.setContent("");
+        sendMsg(chatMsg, Message.ADDFRIEND_BACK);
+//        //判断添加的对象是否在线
+//        User userTo = WebSocketMessageInboundPool.isUserInPool(this, chatMsg.getToUserId());
+//        if (userTo != null) {
+//            //发送消息至对方
+//            chatMsg.setState(1);    //设置为发送成功
+//            WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(chatMsg)); //发送
+//            //写入数据库
+//            DaoUtils.insert(chatMsg);
+//        } else {
+//            chatMsg.setState(2);    //设置为保存数据库待发送状态
+//            //写入数据库
+//            DaoUtils.insert(chatMsg);
+//        }
+//
+//        //返回确认消息
+//        Message message = new Message(Message.ADDFRIEND, "", System.currentTimeMillis(), chatMsg.getUid());
+//        WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
+    }
+
+    /**
+     * 在线则发送消息，不在线则保存到数据库
+     *
+     * @param msg
+     * @param type
+     */
+    private void sendMsg(ChatMsg msg, String type) {
         msg.setSendTimeMillis(System.currentTimeMillis());  //设置发送时间为当前时间
         //判断聊天对象是否在线
         User userTo = WebSocketMessageInboundPool.isUserInPool(this, msg.getToUserId());
@@ -161,40 +224,7 @@ public class WebSocketMessageInbound extends MessageInbound {
             DaoUtils.insert(msg);
         }
         //返回确认消息
-        Message message = new Message(Message.CHAT_BACK, "", System.currentTimeMillis(), msg.getUid());
-        WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
-    }
-
-    /**
-     * 处理好友申请
-     *
-     * @param chatMsg
-     */
-    private void dealFriendAddMsg(ChatMsg chatMsg) {
-        //设置发送时间为当前时间
-        chatMsg.setSendTimeMillis(System.currentTimeMillis());
-        //设置请求者Id
-        chatMsg.setFromUserId(user.getUserId());
-        //设置被请求者Id
-        chatMsg.setToUserId(Integer.valueOf(chatMsg.getContent().toString()));
-        //设置内容为空
-        chatMsg.setContent("");
-        //判断添加的对象是否在线
-        User userTo = WebSocketMessageInboundPool.isUserInPool(this, chatMsg.getToUserId());
-        if (userTo != null) {
-            //发送消息至对方
-            chatMsg.setState(1);    //设置为发送成功
-            WebSocketMessageInboundPool.sendMessageToUser(userTo, gson.toJson(chatMsg)); //发送
-            //写入数据库
-            DaoUtils.insert(chatMsg);
-        } else {
-            chatMsg.setState(2);    //设置为保存数据库待发送状态
-            //写入数据库
-            DaoUtils.insert(chatMsg);
-        }
-
-        //返回确认消息
-        Message message = new Message(Message.ADDFRIEND, "", System.currentTimeMillis(), chatMsg.getUid());
+        Message message = new Message(type, "", System.currentTimeMillis(), msg.getUid());
         WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
     }
 }

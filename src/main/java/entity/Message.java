@@ -14,6 +14,7 @@ public class Message {
     public static final String ADDFRIEND = "addfriend";                 // 添加好友
     public static final String ADDFRIEND_CONFORM = "addfriend_conform";                 // 好友申请确认
     public static final String ADDFRIEND_BACK = "addfriend_back";                 // 好友申请消息返回
+    public static final String ADDFRIEND_CONFORM_BACK = "addfriend_conform_back";                 // 好友确认消息返回
     public static final String ONLINE_REMINDER = "onlineReminder";    //好友上线提醒
     public static final String OFFLINE_REMINDER = "offlineReminder";    //好友下线提醒
 
