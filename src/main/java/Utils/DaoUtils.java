@@ -56,7 +56,7 @@ public class DaoUtils {
      * 获取不同类型的数据值
      *
      * @param object
-     * @return
+     * @return User或list类型，则返回null
      */
     private static Object getValue(Object object) {
         if (object instanceof CharSequence) {
@@ -65,6 +65,10 @@ public class DaoUtils {
             return ((Long) object).longValue();
         } else if (object instanceof Integer) {
             return ((Integer) object).intValue();
+        } else if (object instanceof List) {
+            return null;
+        } else if (object instanceof User) {
+            return null;
         } else {
             return object;
         }
@@ -195,7 +199,8 @@ public class DaoUtils {
         //拼接sql语句
         if (maps != null) {
             for (HashMap map : maps) {
-                if (map.get(EntityUtils.VALUE_ENTITY) != null) {
+                if (map.get(EntityUtils.VALUE_ENTITY) != null
+                        && getValue(map.get(EntityUtils.VALUE_ENTITY)) != null) {
                     if (firstParam) {
                         sql_key = map.get(EntityUtils.KEY_ENTITY).toString();
                         sql_value = " ) VALUES ( " + getValue(map.get(EntityUtils.VALUE_ENTITY));

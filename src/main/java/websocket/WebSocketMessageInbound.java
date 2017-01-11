@@ -1,6 +1,7 @@
 package websocket;
 
 import Utils.DaoUtils;
+import Utils.DataDaoUtils;
 import Utils.LogUtils;
 import com.google.gson.Gson;
 import entity.ChatMsg;
@@ -118,8 +119,8 @@ public class WebSocketMessageInbound extends MessageInbound {
                 dealChatMsg(msg);
             } else if (type.equals(Message.ADDFRIEND)) {      //添加好友
                 dealFriendAddMsg(msg);
-            }else if (type.equals(Message.ADDFRIEND_CONFORM)){  //好友确认
-
+            } else if (type.equals(Message.ADDFRIEND_CONFORM)) {  //好友确认
+                dealApplyConformMsg(msg);
             }
         }
         //向所有在线用户发送消息
@@ -140,6 +141,41 @@ public class WebSocketMessageInbound extends MessageInbound {
             }
         }
         return false;
+    }
+
+    /**
+     * 处理申请确认消息
+     *
+     * @param msg
+     */
+    private void dealApplyConformMsg(ChatMsg msg) {
+        //设置请求者Id
+        msg.setFromUserId(user.getUserId());
+        List<ChatMsg> msgs = DaoUtils.findByParams(ChatMsg.class,
+                new SqlParam(DaoUtils.CHATMSG_UID, msg.getUid()), new SqlParam(DaoUtils.CHATMSG_TOUSERID, msg.getFromUserId()));
+        if (msgs != null && msgs.size() != 0) {
+            //设置被请求者Id
+            msg.setToUserId(msgs.get(0).getFromUserId());
+            User user1 = DataDaoUtils.getUserById(msg.getToUserId());
+            //返回确认消息
+            Message message = new Message(Message.ADDFRIEND_CONFORM_BACK, "fail", System.currentTimeMillis(), msg.getUid());
+            if (user1 != null) {
+                //同意，则写入数据库，然后发送，不同意直接发送
+                if (msg.getContent().equals(Message.APPLY_AGREE)) {
+                    if (DataDaoUtils.addFriend(user, user1))
+                        sendMsg(msg, Message.ADDFRIEND_CONFORM_BACK);
+                    else {
+                        WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
+                    }
+                } else {
+                    sendMsg(msg, Message.ADDFRIEND_CONFORM_BACK);
+                }
+
+            } else {
+                WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
+            }
+
+        }
     }
 
     /**
@@ -224,7 +260,7 @@ public class WebSocketMessageInbound extends MessageInbound {
             DaoUtils.insert(msg);
         }
         //返回确认消息
-        Message message = new Message(type, "", System.currentTimeMillis(), msg.getUid());
+        Message message = new Message(type, msg.getContent(), System.currentTimeMillis(), msg.getUid());
         WebSocketMessageInboundPool.sendMessageToUser(user, gson.toJson(message));
     }
 }
